@@ -4,4 +4,3 @@ task main()
    Wait(3000);
    Off(OUT_A);
 }
-
