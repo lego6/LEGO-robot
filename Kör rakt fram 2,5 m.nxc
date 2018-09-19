@@ -1,0 +1,7 @@
+task main ()
+{
+     OnFwd (OUT_AB, 75);
+     Wait 5000;
+     Off (OUT_AB);
+     
+}
