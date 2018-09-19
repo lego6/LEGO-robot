@@ -1,7 +1,7 @@
 task main ()
 {
-     OnFwd (OUT_AB, 75);
-     Wait 5000;
-     Off (OUT_AB);
-     
+     OnFwdReg (OUT_BC, 75, OUT_REGMODE_SYNC);
+     Wait (8500);
+     Off (OUT_BC);
+
 }
