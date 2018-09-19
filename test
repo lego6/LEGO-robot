@@ -1,0 +1,29 @@
+//A boken
+//B vänster
+//C Höger
+
+//4 UltraSonic
+//3 Scanner
+
+
+
+Task main(){
+
+SetSensorLowspeed(IN_4)
+While(true){
+OnFwd(OUT_B, 50);
+OnFwd(OUT_C, -50);
+
+Int distance[10];
+while(i<10){ 
+Distance[i]=SensorUS(IN_4);
+I++;
+
+}
+}
+
+
+Off(OUT_BC)
+
+}
+
