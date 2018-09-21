@@ -1,0 +1,43 @@
+sub rotate(int speed, int degrees, int turn, int mode) {
+    if (mode == 3 || mode == 4) {
+        RotateMotorEx(OUT_BC, speed, degrees, turn, true, false);       //OUT_REGMODE_SPEED med boken på??
+        RotateMotorEx(OUT_BC, speed, degrees, turn, true, true);        //OUT_REGMODE_SPEED med boken på??
+        Wait(500);
+    }
+    
+    // oliver function
+    OnFwdReg(OUT_BC, 50, OUT_REGMODE_SYNC);   //OUT_REGMODE_SPEED med boken på??
+    Wait(5000);
+    Off(OUT_BC);
+      
+    if (mode == 1 || mode == 3) {
+       RotateMotorEx(OUT_BC, speed, degrees + 25, -turn, true, true);
+       OnFwdReg(OUT_BC, 50, OUT_REGMODE_SYNC);     //OUT_REGMODE_SPEED med boken på??
+    } else {
+      RotateMotorEx(OUT_BC, speed, degrees + 25, -turn, true, true);
+      OnRevReg(OUT_BC, 50, OUT_REGMODE_SYNC);       //OUT_REGMODE_SPEED med boken på??
+    }
+    
+      Wait(3000);
+      Off(OUT_BC);
+}
+
+   task main() {
+    // 1 ..... find shortest distance to wall
+
+    // 2 ..... approach wall 0-30cm
+
+    // 3 ..... rotate 90 degrees
+
+//    rotate(50, 252, 100, 1);
+
+    rotate(50, 250, 100, 3);
+
+    Wait(8000);
+    
+    rotate(50, 250, 100, 4);
+
+    // 4 ..... drive 2.5m
+
+    // 5 ..... drop mail
+}
