@@ -1,0 +1,16 @@
+task main()
+{
+   SetSensorType(IN_1, IN_TYPE_LIGHT_INACTIVE);
+   SetSensorMode(IN_1, SENSOR_MODE_PERCENT);
+   ResetSensor(IN_1);
+   while(true)
+   {
+      if(Sensor(SENSOR_1 >= 17);
+         OnFwd(OUT_BC, 40);
+         until (SENSOR_1 <17);
+         wait(500);
+         Off(OUT_BC);
+   }
+}
+
+//300 very light, 800 very dark, 17 percent: 30 cm from wall
