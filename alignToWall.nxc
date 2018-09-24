@@ -5,7 +5,7 @@ task main()
    ResetSensor(IN_1);
    while(true)
    {
-      if(Sensor(SENSOR_1 >= 17);
+      if(SENSOR_1 >= 17);
          OnFwd(OUT_BC, 40);
          until (SENSOR_1 <17);
          wait(500);
