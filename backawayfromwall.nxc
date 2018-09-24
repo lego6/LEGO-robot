@@ -1,0 +1,4 @@
+	//Back away from wall
+	OnFwdReg (OUT_BC, -40, OUT_REGMODE_SYNC);
+	Wait(1500);
+	Off(OUT_BC);
