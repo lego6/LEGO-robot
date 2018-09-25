@@ -1,7 +1,19 @@
+//Version 1.0
 task main ()
 {
      OnFwdReg (OUT_BC, 75, OUT_REGMODE_SYNC);
      Wait (8500);
      Off (OUT_BC);
+
+}
+
+
+//Version 2.0
+task main ()
+{
+
+     RotateMotorEx (OUT_BC, 75,-540, 0, true, true);
+     RotateMotorEx (OUT_BC, 75,5890, 0, true, true);
+
 
 }
