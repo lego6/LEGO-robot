@@ -1,4 +1,5 @@
 //Version 1.0
+//Kör fram genom att räkna tiden det tar.
 task main ()
 {
      OnFwdReg (OUT_BC, 75, OUT_REGMODE_SYNC);
@@ -9,6 +10,7 @@ task main ()
 
 
 //Version 2.0
+//Kör fram genom att räkna rotationen på hjulen.
 task main ()
 {
 
