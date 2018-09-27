@@ -1,0 +1,19 @@
+//Version 1.0 
+//Test där roboten kör framåt tills att ljussensor registerar lite ljus. Då kör den bakåt. 
+#define THRESHOLD 40
+task main() {
+  SetSensorType(IN_1, IN_TYPE_LIGHT_INACTIVE);
+  SetSensorMode(IN_1, IN_MODE_PCTFULLSCALE);
+  ResetSensor(IN_1);
+
+  RotateMotorEx (OUT_BC, 75,5890, 0, true, true);
+
+
+  if (Sensor (IN_1)){
+    OnRev(OUT_BC, 7)
+    until (Sensor (IN_1) <= THRESHOLD);
+    Off (OUT_BC);
+
+
+    }
+}
