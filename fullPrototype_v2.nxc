@@ -1,0 +1,144 @@
+	sub rotate(int speed, int degrees, int turn, int mode) {
+	    // 3 ..... rotate 90 degrees
+
+	    if (mode == 3 || mode == 4) {
+	        RotateMotorEx(OUT_BC, speed, degrees, turn, true, true);       //OUT_REGMODE_SPEED med boken på??
+	        Wait(500);
+	    }
+		/*
+	    // oliver function
+	    /OnFwdReg(OUT_BC, 50, OUT_REGMODE_SYNC);   //OUT_REGMODE_SPEED med boken på??
+	    Wait(5000);
+	    Off(OUT_BC);
+	    // ^ oliver function */
+
+	    RotateMotorEx(OUT_BC, speed, degrees, -turn, true, true);
+      
+	    if (mode == 1 || mode == 3) { 
+	      OnFwdReg(OUT_BC, 80, OUT_REGMODE_SYNC);     //OUT_REGMODE_SPEED med boken på??
+	    } else {
+	      OnRevReg(OUT_BC, 80, OUT_REGMODE_SYNC);       //OUT_REGMODE_SPEED med boken på??
+	    }
+    
+	      Wait(3000);
+	      Off(OUT_BC);
+  	    RotateMotorEx(OUT_BC, speed, degrees, turn, true, true);
+		  
+	}
+
+	
+	//rotate 90 degrees
+	//drive 2.5m
+	//stop
+	//drop payload
+	
+
+
+
+
+task main(){
+
+    SetSensorLowspeed  (IN_4,);
+	
+	while(true) {
+		float dist = SensorUS (IN_4);
+			OnFwd (OUT_B, 60);
+			OnFwd (OUT_C, -60);
+			
+			if(dist <60){
+				break;
+			}
+	              
+	
+	
+	}
+	
+	
+	SetSensor(IN_2,SENSOR_TOUCH);
+	SetSensor(IN_3,SENSOR_TOUCH);  
+	
+	//Drive into wall until fully facing it
+	while(true){
+	OnFwdReg (OUT_BC, 50, OUT_REGMODE_SPEED);
+	if (SENSOR_2 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_C, 80);
+		OnFwd(OUT_B, -30);
+		until(SENSOR_3 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, 50);
+		Wait(1000);
+		Off(OUT_BC);
+		break;
+		}
+		
+		else if (SENSOR_3 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_B, 80);
+		OnFwd(OUT_C, -30);
+		until(SENSOR_2 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, 60);
+		Wait(1000);
+		Off(OUT_BC);
+		break;
+		}
+	}
+	Off(OUT_BC);
+	
+	//Back away from wall
+	OnFwdReg (OUT_BC, -40, OUT_REGMODE_SYNC);
+	Wait(1500);
+	Off(OUT_BC);
+	
+	rotate(60, 540, 25, 1);
+	
+	while(true){
+	OnFwdReg (OUT_BC, 50, OUT_REGMODE_SYNC);
+	if (SENSOR_2 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_C, 80);
+		OnFwd(OUT_B, -30);
+		until(SENSOR_3 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, 60);
+		Wait(1000);
+		Off(OUT_BC);
+		break;
+		}
+		
+		else if (SENSOR_3 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_B, 80);
+		OnFwd(OUT_C, -30);
+		until(SENSOR_2 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, 50);
+		Wait(1000);
+		Off(OUT_BC);
+		break;
+		}
+	}
+	Off(OUT_BC);
+	
+	//Back away from wall
+	OnFwdReg (OUT_BC, -30, OUT_REGMODE_SYNC);
+	Wait(1500);
+	Off(OUT_BC);
+	
+    RotateMotorEx(OUT_BC, 60, 400, 60, true, true);
+	
+	OnFwd(OUT_A, -50);
+	   Wait(3000);
+	   Off(OUT_A);
+   	OnFwdReg (OUT_BC, 100, OUT_REGMODE_SYNC);
+	Wait(5000);
+	Off(OUT_BC);
+	   
+	
+	
+}
