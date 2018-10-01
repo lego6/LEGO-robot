@@ -1,0 +1,134 @@
+
+
+
+
+
+
+	
+sub rotate(int degrees, int turn) {
+	        RotateMotorEx(OUT_BC, 65, degrees, turn, true, true); 
+			Wait(500);      	  
+}
+	
+sub driveDistance (int dist, int speed) {
+	OnFwdReg (OUT_BC, 20, OUT_REGMODE_SYNC);
+	Wait(1250);
+	Off(OUT_BC);
+	RotateMotorEx (OUT_BC, speed, 2144 * dist, 0, true, true);
+	Wait(500);
+}
+	
+	
+sub dropPayload(int speed, int time){
+
+	OnFwd(OUT_A, -speed);
+	   Wait(time);
+	   Off(OUT_A);
+}
+
+sub findWall(int speed, int distance){
+	
+    float lastVal = 1000;
+
+	while(true) {
+		float dist = SensorUS (IN_4);
+			OnFwdReg (OUT_B, speed, OUT_REGMODE_SYNC);
+			OnFwdReg (OUT_C, -speed, OUT_REGMODE_SYNC);
+			
+			if(dist > lastVal && dist < distance)
+				break;
+			      
+			lastVal = dist;
+	}
+}
+
+sub driveIntoWall(int ForwardSpeed, int  rotateFwdSpeed, int rotateRevSpeed){
+
+	if (SENSOR_2 == 1 && SENSOR_3 == 1){
+	
+	Wait(750);
+	Off(OUT_BC);
+	return;
+}
+	while(true){
+	OnFwdReg (OUT_BC, ForwardSpeed, OUT_REGMODE_SPEED);
+	if (SENSOR_2 == 1){
+		Off(OUT_BC);
+		Wait(100);
+		OnFwd(OUT_C, rotateFwdSpeed);
+		OnFwd(OUT_B, rotateRevSpeed);
+		until(SENSOR_3 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1) //kolla om detta behövs, om ena först och andra sen så klart.
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(750);
+		Off(OUT_BC);
+		break;
+		}
+		
+		else if (SENSOR_3 == 1){
+		Off(OUT_BC);
+		Wait(100);
+		OnFwd(OUT_B, rotateFwdSpeed);
+		OnFwd(OUT_C, rotateRevSpeed);
+		until(SENSOR_2 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(750);
+		Off(OUT_BC);
+		break;
+		}
+	}
+	Off(OUT_BC);
+}
+
+sub backAwayFromWall(int revSpeed, int driveTime){
+
+	OnFwdReg (OUT_BC, revSpeed, OUT_REGMODE_SYNC);
+	Wait(driveTime);
+	Off(OUT_BC);
+}
+
+
+
+
+
+
+
+task main(){
+
+    SetSensorLowspeed  (IN_4,);
+	SetSensor(IN_2,SENSOR_TOUCH);
+	SetSensor(IN_3,SENSOR_TOUCH); 
+	
+	/*
+	if (mode == 3 || mode == 4) {
+	}
+	if (mode == 1 || mode == 3) { 
+	}
+	*/
+	
+    findWall(60, 55);
+	
+	driveIntoWall(45, 70, -25);
+	
+	backAwayFromWall(-40, 2000);
+	
+	rotate(240, -100);
+		
+	driveDistance(2.5, 85);
+	
+	rotate(240, 100);
+	
+	driveIntoWall(45, 70, -25);
+	
+	backAwayFromWall(-40, 2000);
+	
+	rotate(240, 100);
+		
+	dropPayload(50, 3000);
+	
+	driveDistance(2.5, 100);
+	
+	   	
+	
+}

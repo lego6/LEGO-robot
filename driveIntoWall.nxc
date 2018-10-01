@@ -1,0 +1,32 @@
+sub driveIntoWall(int ForwardSpeed, int  rotateFwdSpeed, int rotateRevSpeed){
+
+	while(true){
+	OnFwdReg (OUT_BC, ForwardSpeed, OUT_REGMODE_SPEED);
+	if (SENSOR_2 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_C, rotateFwdSpeed);
+		OnFwd(OUT_B, rotateRevSpeed);
+		until(SENSOR_3 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1) //kolla om detta behövs, om ena först och andra sen så klart.
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(750);
+		Off(OUT_BC);
+		break;
+		}
+		
+		else if (SENSOR_3 == 1){
+		Off(OUT_BC);
+		Wait(250);
+		OnFwd(OUT_B, rotateFwdSpeed);
+		OnFwd(OUT_C, rotateRevSpeed);
+		until(SENSOR_2 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(750);
+		Off(OUT_BC);
+		break;
+		}
+	}
+	Off(OUT_BC);
+}

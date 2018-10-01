@@ -1,0 +1,16 @@
+sub findWall(int speed, distance){
+	
+    float lastVal = 1000;
+
+	while(true) {
+		float dist = SensorUS (IN_4);
+			OnFwdReg (OUT_B, speed);
+			OnFwdReg (OUT_C, -speed);
+			
+			if(dist && dist < distance)
+				break;
+			
+	              
+			lastVal = dist;
+	}
+}

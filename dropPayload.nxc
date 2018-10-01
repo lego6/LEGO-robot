@@ -1,0 +1,7 @@
+sub dropPayload(int speed, int time){
+
+	OnFwd(OUT_A, -speed);
+	   Wait(time);
+	   Off(OUT_A);
+	   
+}

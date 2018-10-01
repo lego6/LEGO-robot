@@ -1,0 +1,6 @@
+sub backAwayFromWall(int revSpeed, int driveTime){
+
+	OnFwdReg (OUT_BC, revSpeed, OUT_REGMODE_SYNC);
+	Wait(driveTime);
+	Off(OUT_BC);
+}
