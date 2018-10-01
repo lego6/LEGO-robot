@@ -1,0 +1,3 @@
+	sub rotate(int degrees, int turn) {
+        RotateMotorEx(OUT_BC, 75, degrees, turn, true, true);       //OUT_REGMODE_SPEED med boken på??		  
+	}
