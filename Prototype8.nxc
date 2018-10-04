@@ -112,6 +112,11 @@ task main(){
 				mode = 1;	
 			}
 	
+			for (int i = 0; i < mode; i++) {
+				PlayToneEx(1662, 300);
+				Wait(400);
+			}
+	
 			if (SENSOR_3 == 1){
 				break;
 			}
@@ -180,20 +185,5 @@ task main(){
 		backAwayFromWall(-40, 1500);
 	}
 	
-	
-	OnFwdReg (OUT_B, 60, OUT_REGMODE_SYNC);
-	OnFwdReg (OUT_C, -60, OUT_REGMODE_SYNC);
-	Wait(100);
-	
-	OnFwdReg (OUT_B, -60, OUT_REGMODE_SYNC);
-	OnFwdReg (OUT_C, 60, OUT_REGMODE_SYNC);
-	Wait(100);
-	
-	OnFwdReg (OUT_B, 60, OUT_REGMODE_SYNC);
-	OnFwdReg (OUT_C, -60, OUT_REGMODE_SYNC);
-	Wait(100);
-	
-	OnFwdReg (OUT_B, -60, OUT_REGMODE_SYNC);
-	OnFwdReg (OUT_C, 60, OUT_REGMODE_SYNC);
-	Wait(100);
+	PlayToneEx(1662, 1000);
 }
