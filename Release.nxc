@@ -1,0 +1,191 @@
+sub rotate(int degrees, int turn) {
+	        RotateMotorEx(OUT_BC, 65, degrees, turn, true, true); 
+			Wait(500);      	  
+}
+	
+sub driveDistance (int dist, int speed) {
+	OnFwdReg (OUT_BC, 20, OUT_REGMODE_SYNC);
+	Wait(1250);
+	Off(OUT_BC);
+	RotateMotorEx (OUT_BC, speed, 2144 * dist, 0, true, true);
+	Wait(500);
+}
+	
+	
+sub dropPayload(int speed, int time){
+
+	OnFwd(OUT_A, -speed);
+	   Wait(time);
+	   Off(OUT_A);
+}
+
+sub findWall(int speed, int distance){
+	
+    float lastVal = 1000;
+
+	while(true) {
+		float dist = SensorUS (IN_4);
+			OnFwdReg (OUT_B, speed, OUT_REGMODE_SYNC);
+			OnFwdReg (OUT_C, -speed, OUT_REGMODE_SYNC);
+			
+			if(dist > lastVal && dist < distance)
+				break;
+			      
+			lastVal = dist;
+	}
+}
+
+sub driveIntoWall(int ForwardSpeed, int  rotateFwdSpeed, int rotateRevSpeed){
+
+	if (SENSOR_2 == 1 && SENSOR_3 == 1){
+	
+	Wait(150);
+	Off(OUT_BC);
+	return;
+}
+	while(true){
+	OnFwdReg (OUT_BC, ForwardSpeed, OUT_REGMODE_SPEED);
+	if (SENSOR_2 == 1){
+		Off(OUT_BC);
+		Wait(100);
+		OnFwd(OUT_C, rotateFwdSpeed);
+		OnFwd(OUT_B, rotateRevSpeed);
+		until(SENSOR_3 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1) //kolla om detta behövs, om ena först och andra sen så klart.
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(150);
+		Off(OUT_BC);
+		break;
+		}
+		
+		else if (SENSOR_3 == 1){
+		Off(OUT_BC);
+		Wait(100);
+		OnFwd(OUT_B, rotateFwdSpeed);
+		OnFwd(OUT_C, rotateRevSpeed);
+		until(SENSOR_2 == 1);
+		if (SENSOR_2 == 1 && SENSOR_3 == 1)
+		OnFwd (OUT_BC, ForwardSpeed);
+		Wait(150);
+		Off(OUT_BC);
+		break;
+		}
+	}
+	Off(OUT_BC);
+}
+
+sub backAwayFromWall(int revSpeed, int driveTime){
+
+	OnFwdReg (OUT_BC, revSpeed, OUT_REGMODE_SYNC);
+	Wait(driveTime);
+	Off(OUT_BC);
+}
+
+
+
+
+
+task main(){
+
+    SetSensorLowspeed  (IN_4,);
+	SetSensor(IN_2,SENSOR_TOUCH);
+	SetSensor(IN_3,SENSOR_TOUCH); 
+	
+	
+	//bestäm deluppgift genom att klicka på sensor 2. Börjar på 1.
+	
+	int mode = 1;
+	int rotation = -100;
+	
+	PlayTone(1662, 100);
+	Wait(150);
+	
+	while(true){
+		if (SENSOR_2 == 1){
+			mode=mode+1;
+			
+			if(mode<5){
+				
+				for (int i = 0; i < mode; i++) {
+					PlayTone(1662, 100);
+					Wait(150);
+				}
+			}
+		}
+		if (mode >4){
+			mode = 1;
+			PlayTone(1662, 100);
+			Wait(150);	
+		}
+		
+			if (SENSOR_3 == 1){
+				break;
+			}
+	}
+	
+    findWall(60, 55);
+	
+	driveIntoWall(45, 70, -25);
+	
+	backAwayFromWall(-40, 1250);
+	
+	if(mode >2){
+		
+		rotate(240, rotation);
+		rotate(240, rotation);
+		driveIntoWall(55, 70, -25);
+		backAwayFromWall(-40, 1250);
+		if(mode==3){
+			rotate(240, -rotation);
+		}
+		else{
+			rotate(240, rotation);
+		}
+		
+	}
+	else if (mode == 2){
+		rotate(240, -rotation);
+	}
+	else{
+		rotate(240, rotation);
+	
+	}
+    
+	
+	driveDistance(2.5, 85);
+	
+	if(mode == 1 || mode == 4){
+		rotate(240, -rotation);
+	}
+	else{
+		rotate(240, rotation);
+	}
+	
+	driveIntoWall(45, 70, -25);
+	
+	backAwayFromWall(-40, 1250);
+	
+	if(mode == 1 || mode == 4){
+		rotate(240, -rotation);
+	}
+	else{
+		rotate(240, rotation);
+	}
+		
+	dropPayload(50, 3000);
+	
+	driveDistance(2.5, 100);
+	
+	if(mode >2){
+		findWall(60, 55);
+		driveIntoWall(55, 70, -25);
+	   	backAwayFromWall(-40, 1250);
+		rotate(240, rotation);
+		rotate(240, rotation);
+		driveIntoWall(45, 70, -25);
+		backAwayFromWall(-40, 2500);
+	}
+	
+	PlayTone(1662, 1000);
+	Wait(150);
+}
